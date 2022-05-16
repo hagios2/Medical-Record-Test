@@ -1,35 +1,12 @@
-"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
-"Indicates what fields are available at the top level of a query operation."
 type Query {
-    users: [User]! @all
     medical_records: [MedicalRecord]! @all
-}
-
-"Account of a person who utilizes this application."
-type User {
-    "Unique primary key."
-    id: ID!
-
-    "Non-unique name."
-    name: String!
-
-    "Unique email address."
-    email: String!
-
-    "When the email was verified."
-    email_verified_at: DateTime
-
-    "When the account was created."
-    created_at: DateTime!
-
-    "When the account was last updated."
-    updated_at: DateTime!
 }
 
 type MedicalRecord {
     id: ID!
+    patient_id: Int!
     chest: Boolean!
     lumbo_sacral_vertebrae: Boolean!
     shoulder_joint: Boolean!
@@ -59,4 +36,39 @@ type MedicalRecord {
     thyroid: Boolean!
     ct_scan: String!
     mri: String!
+}
+
+type Mutation {
+    createMedicalRecord(
+        patient_id: Int!
+        chest: Boolean
+        lumbo_sacral_vertebrae: Boolean
+        shoulder_joint: Boolean
+        pelvic_joint: Boolean
+        humerus: Boolean
+        fingers: Boolean
+        cervical_vertebrae: Boolean
+        thoraco_lumbar_vertebrae: Boolean
+        elbow_joint: Boolean
+        hip_joint: Boolean
+        radius_or_ulner: Boolean
+        thoracic_vertebrae: Boolean
+        wrist_joint: Boolean
+        knee_joint: Boolean
+        femoral: Boolean
+        foot: Boolean
+        lumvar_vertebrae: Boolean
+        thoracic_inlet: Boolean
+        sacro_lliac_loint: Boolean
+        ankle: Boolean
+        tibia_or_fibula: Boolean
+        obstetric: Boolean
+        abdioninal: Boolean
+        pelvis: Boolean
+        prostrate: Boolean
+        breast: Boolean
+        thyroid: Boolean
+        ct_scan: String!
+        mri: String!
+    ): MedicalRecord! @create
 }
