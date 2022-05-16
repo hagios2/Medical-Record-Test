@@ -35,7 +35,7 @@ class CreateMedicalRecordsTable extends Migration
             $table->boolean('foot')->default(false);
             $table->boolean('lumvar_vertebrae')->default(false);
             $table->boolean('thoracic_inlet')->default(false);
-            $table->boolean('sacro_lliac_loint')->default(false);
+            $table->boolean('sacro_lliac_joint')->default(false);
             $table->boolean('ankle')->default(false);
             $table->boolean('tibia_or_fibula')->default(false);
             $table->boolean('obstetric')->default(false);

@@ -6,7 +6,7 @@ type Query {
 
 type MedicalRecord {
     id: ID!
-    patient_id: Int!
+    patient_name: String!
     chest: Boolean!
     lumbo_sacral_vertebrae: Boolean!
     shoulder_joint: Boolean!
@@ -25,7 +25,7 @@ type MedicalRecord {
     foot: Boolean!
     lumvar_vertebrae: Boolean!
     thoracic_inlet: Boolean!
-    sacro_lliac_loint: Boolean!
+    sacro_lliac_joint: Boolean!
     ankle: Boolean!
     tibia_or_fibula: Boolean!
     obstetric: Boolean!
@@ -40,7 +40,7 @@ type MedicalRecord {
 
 type Mutation {
     createMedicalRecord(
-        patient_id: Int!
+        patient_name: String!
         chest: Boolean
         lumbo_sacral_vertebrae: Boolean
         shoulder_joint: Boolean
@@ -59,7 +59,7 @@ type Mutation {
         foot: Boolean
         lumvar_vertebrae: Boolean
         thoracic_inlet: Boolean
-        sacro_lliac_loint: Boolean
+        sacro_lliac_joint: Boolean
         ankle: Boolean
         tibia_or_fibula: Boolean
         obstetric: Boolean
