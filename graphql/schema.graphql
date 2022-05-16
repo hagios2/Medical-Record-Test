@@ -3,20 +3,8 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 
 "Indicates what fields are available at the top level of a query operation."
 type Query {
-    "Find a single user by an identifying attribute."
-    user(
-      "Search by primary key."
-      id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
-
-      "Search by email address."
-      email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
-    ): User @find
-
-    "List multiple users."
-    users(
-      "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
-      name: String @where(operator: "like")
-    ): [User!]! @paginate(defaultCount: 10)
+    users: [User]! @all
+    medical_records: [MedicalRecord]! @all
 }
 
 "Account of a person who utilizes this application."
@@ -42,4 +30,33 @@ type User {
 
 type MedicalRecord {
     id: ID!
+    chest: Boolean!
+    lumbo_sacral_vertebrae: Boolean!
+    shoulder_joint: Boolean!
+    pelvic_joint: Boolean!
+    humerus: Boolean!
+    fingers: Boolean!
+    cervical_vertebrae: Boolean!
+    thoraco_lumbar_vertebrae: Boolean!
+    elbow_joint: Boolean!
+    hip_joint: Boolean!
+    radius_or_ulner: Boolean!
+    thoracic_vertebrae: Boolean!
+    wrist_joint: Boolean!
+    knee_joint: Boolean!
+    femoral: Boolean!
+    foot: Boolean!
+    lumvar_vertebrae: Boolean!
+    thoracic_inlet: Boolean!
+    sacro_lliac_loint: Boolean!
+    ankle: Boolean!
+    tibia_or_fibula: Boolean!
+    obstetric: Boolean!
+    abdioninal: Boolean!
+    pelvis: Boolean!
+    prostrate: Boolean!
+    breast: Boolean!
+    thyroid: Boolean!
+    ct_scan: String!
+    mri: String!
 }
