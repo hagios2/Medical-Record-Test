@@ -15,7 +15,7 @@ class CreateMedicalRecordsTable extends Migration
     {
         Schema::create('medical_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id');
+            $table->string('patient_name');
             $table->boolean('chest')->default(false);
             $table->boolean('lumbo_sacral_vertebrae')->default(false);
             $table->boolean('shoulder_joint')->default(false);
