@@ -528,6 +528,8 @@ class ComposerStaticInita4c893c4f64eab0a77bad6b209949c58
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Requests\\RedicalRecordRequest' => __DIR__ . '/../..' . '/app/Http/Requests/RedicalRecordRequest.php',
+        'App\\Http\\Resources\\RedicalRecordResource' => __DIR__ . '/../..' . '/app/Http/Resources/RedicalRecordResource.php',
         'App\\Models\\MedicalRecord' => __DIR__ . '/../..' . '/app/Models/MedicalRecord.php',
         'App\\Models\\Patient' => __DIR__ . '/../..' . '/app/Models/Patient.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
