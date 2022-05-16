@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Translation\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -20,6 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Translation\Provider\FilteringProvider;
 use Symfony\Component\Translation\Provider\TranslationProviderCollection;
 use Symfony\Component\Translation\Reader\TranslationReaderInterface;
 use Symfony\Component\Translation\TranslatorBag;
@@ -27,17 +29,15 @@ use Symfony\Component\Translation\TranslatorBag;
 /**
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
  */
+#[AsCommand(name: 'translation:push', description: 'Push translations to a given provider.')]
 final class TranslationPushCommand extends Command
 {
     use TranslationTrait;
 
-    protected static $defaultName = 'translation:push';
-    protected static $defaultDescription = 'Push translations to a given provider.';
-
     private $providers;
     private $reader;
-    private $transPaths;
-    private $enabledLocales;
+    private array $transPaths;
+    private array $enabledLocales;
 
     public function __construct(TranslationProviderCollection $providers, TranslationReaderInterface $reader, array $transPaths = [], array $enabledLocales = [])
     {
@@ -103,7 +103,7 @@ You can delete provider translations which are not present locally by using the 
 
 Full example:
 
-  <info>php %command.full_name% provider --force --delete-missing --domains=messages,validators --locales=en</>
+  <info>php %command.full_name% provider --force --delete-missing --domains=messages --domains=validators --locales=en</>
 
 This command pushes all translations associated with the <comment>messages</> and <comment>validators</> domains for the <comment>en</> locale.
 Provider translations for the specified domains and locale are deleted if they're not present locally and overwritten if it's the case.
@@ -133,7 +133,13 @@ EOF
         $localTranslations = $this->readLocalTranslations($locales, $domains, $this->transPaths);
 
         if (!$domains) {
-            $domains = $this->getDomainsFromTranslatorBag($localTranslations);
+            if ($provider instanceof FilteringProvider) {
+                $domains = $provider->getDomains();
+            }
+
+            if (!$domains) {
+                $domains = $this->getDomainsFromTranslatorBag($localTranslations);
+            }
         }
 
         if (!$deleteMissing && $force) {

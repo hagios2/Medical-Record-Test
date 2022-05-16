@@ -1,12 +1,6 @@
 <?php
 
-use App\Events\CommentWritten;
-use App\Events\LessonWatched;
-use App\Models\Comment;
-use App\Models\Lesson;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('auth')->group(function (){
+
+    Route::post('login', [AuthController::class, 'login']);
+
+    Route::post('logout', [AuthController::class, 'logout']);
+
+    Route::post('refresh', [AuthController::class, 'refresh']);
+
+    Route::get('user', [AuthController::class, 'authUser']);
+
+    Route::post('reset/password', [AuthController::class, 'resetPassword']);
 });
 

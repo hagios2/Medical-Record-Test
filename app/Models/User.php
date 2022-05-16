@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Comment;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
@@ -42,85 +42,23 @@ class User extends Authenticatable
     ];
 
     /**
-     * The comments that belong to the user.
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
      */
-    public function comments()
+    public function getJWTIdentifier()
     {
-        return $this->hasMany(Comment::class);
+        return $this->getKey();
     }
 
     /**
-     * The lessons that a user has access to.
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
      */
-    public function lessons()
+    public function getJWTCustomClaims()
     {
-        return $this->belongsToMany(Lesson::class);
+        return [];
     }
 
-    /**
-     * The lessons that a user has watched.
-     */
-    public function watched()
-    {
-        return $this->belongsToMany(Lesson::class)->wherePivot('watched', true);
-    }
-
-
-    public function achievements()
-    {
-        return $this->hasMany(UserAchievement::class);
-    }
-
-
-    public function achievement()
-    {
-        return $this->belongsToMany(Achievement::class,'user_achievements');
-    }
-
-
-    public function availableAchievements()
-    {
-            $next_available_achievements = [];
-
-            $lesson = Achievement::query()->where('type', 'lesson')->whereHas('userAchievement')->orderBy('count','desc')->first();
-
-            if($lesson) {
-                $next =  Achievement::query()->where('type', 'lesson')->where('count','>',$lesson->count)->orderBy('count','asc')->first();
-
-                if($next) {
-                    $next_available_achievements[] = $next->name;  //push achievement name to the array
-                }
-            }
-            else {
-
-                $next =  Achievement::query()->where('type', 'lesson')->where('count','>',0)->orderBy('count','asc')->first();
-
-                if($next) {
-                    $next_available_achievements[] = $next->name;  //push achievement name to the array
-                }
-            }
-
-
-            /** get the next achievement for by name for the user */
-            $comment = Achievement::query()->where('type', 'comment')->whereHas('userAchievement')->orderBy('count','desc')->first();
-
-            /** if the user has not unlocked any achievement use count of 0 and display the first available achievement**/
-            if($comment) {
-                $next =  Achievement::query()->where('type', 'comment')->where('count','>',$comment->count)->orderBy('count','asc')->first();
-
-                if($next) {
-                    $next_available_achievements[] = $next->name;  //push achievement name to the array
-                }
-            }
-            else {
-
-                $next =  Achievement::query()->where('type', 'comment')->where('count','>',0)->orderBy('count','asc')->first();
-
-                if($next) {
-                    $next_available_achievements[] = $next->name;  //push achievement name to the array
-                }
-            }
-
-        return $next_available_achievements;
-    }
 }
